@@ -35,7 +35,6 @@ public class CFG {
                 nonrec.add(rules.get(pos).right.get(i));
         }
         Rule newRule = new Rule();
-        Rule newRule2 = new Rule();
         if (rec.size() != 0) {
             rules.get(pos).right = new Vector<>();
             for (String non : nonrec)
@@ -44,11 +43,10 @@ public class CFG {
             Vector<String> newRec = new Vector<>();
             for (int i = 0; i < rec.size(); i++)
                 newRec.add(rec.get(i).substring(1) + left + "\'");
-
+            
+            newRec.add("epsilon");
             newRule = new Rule(rules.get(pos).left + "\'", newRec);
-            Vector <String> epsilon = new Vector<>();
-            epsilon.add("epsilon");
-            newRule2 = new Rule(rules.get(pos).left+"\'", epsilon);
+             
         }
         return newRule;
 
@@ -60,10 +58,9 @@ public class CFG {
         for (int i = 0; i < rules.size(); i++) {
             if (i <= pos) {
                 updateRules.add(rules.get(i));
-                if (i == pos && newRule.left != ""){
+                if (i == pos && newRule.left != "")
                     updateRules.add(newRule);
-                    updateRules.add(newRule2);
-                }
+                
             } else {
                 Vector<String> newRight = new Vector<>();
                 for (int j = 0; j < rules.get(i).right.size(); j++) {
